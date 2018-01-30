@@ -1,6 +1,6 @@
 # FullCalendar
 FullCalendar
-https://fullcalendar.io/ 1.cdn css js 2.<div id="calendar"></div>
+https://fullcalendar.io/ 
 
 spectrum
-http://bgrins.github.io/spectrum/#modes-input 1.cdn css js 2.$("#colorpicker_back_color").spectrum({....});
+http://bgrins.github.io/spectrum/#modes-input 
