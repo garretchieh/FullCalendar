@@ -1,0 +1,188 @@
+<html>
+<head>
+	<!--FullCalendar CSS-->
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css'rel='stylesheet' />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.print.min.css'rel='stylesheet' media='print' />
+    <!--jQuery/jQuery-ui/moment-->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/jquery-ui.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
+    <!--FullCalendar/cdn js-->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/locale/zh-cn.js'></script>
+	<!--bootstrap min css-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<!--spectrum-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+	<style>
+		.Disponible {
+			background-color:green;
+			color:#ffffff;
+			border-radius:20px;
+	    }
+		.NoDispoble{
+			background-color:red;
+			color:#ffffff;
+			border-radius:20px;
+		}
+	</style>
+	<script>
+	$(document).ready(function() {
+	    
+		let data=
+		[
+			{
+				title:"我要打籃球",
+				start:"2018-01-30",
+				end:"2018-01-31 24:00:00",
+				//url:"http://www.google.com",
+				className:"Disponible", // 搭配css 或者可以直接指訂 color:"red",textColor:"blue"
+				editable:true //讓內容物可以拖移	
+			},
+			{
+				title:"我要去跑步",
+				start:"2018-02-01",
+				end:"2018-02-03 05:00:00",	
+				className:"NoDispoble", 
+				editable:true //讓內容物可以拖移	
+			},
+			{
+				title:"我要打棒球",
+				start:"2018-01-30",
+				end:"2018-01-31 24:00:00",
+				className:"NoDispoble", 
+				editable:true 	
+			}
+		]
+	
+		$('#calendar').fullCalendar({
+			weekends: true, // will hide Saturdays and Sundays
+			height: 800, //預設高度  動態更改高度$('#calendar').fullCalendar('option', 'height', 700);
+			selectable: true, //
+			selectHelper: true,
+			customButtons: {
+				myCustomButton: {
+					text: 'custom!',
+					click: function() {
+						alert('嘿嘿你幹嘛按我呢?!');
+					}
+				}
+			},
+			header: {
+				left: 'prev,next today myCustomButton',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			events:data,//放置內容
+			eventClick: function(event, jsEvent, view) {//內容的監聽事件
+				alert(event.title);
+			},
+			dayClick: function(date, jsEvent, view) { //click事件
+				//alert(date.format());
+				$("#exampleModal").modal("show");
+				$("#feaha").val(date.format());
+				//$(this).css('background-color', 'red');
+			},
+		});
+		$('#calendar').fullCalendar('next');
+	});
+	</script>
+</head>
+<body>
+<div class="row">
+	<div class="col-md-3"></div>
+	<div class="col-md-6">
+		<div id="calendar"></div>
+	</div>
+	<div class="col-md-3"></div>
+</div>
+
+<!-- Modal insert -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">行事曆新增</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<label for="">start:</label>
+		<input type="date" id="feaha"><br/>
+		<label for="">end:</label>
+		<input type="date" id="end"><br/>
+		<label for="">title</label>
+		<input type="text" id="title"><br/>
+		<label for="">內容顏色</label>
+		<input id="colorpicker_back_color" value="#666" /><br/>
+		<label for="">內容文字顏色</label>
+		<input id="colorpicker_text_color" value="#a2c4c9" />
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="add" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+	$(document).ready(function() {
+		$("#colorpicker_back_color").spectrum({
+		    showPaletteOnly: true,
+			togglePaletteOnly: true,
+			togglePaletteMoreText: 'more',
+			togglePaletteLessText: 'less',
+			color: '#666',
+			palette: [
+				["#000","#444","#666","#999","#ccc","#eee","#f3f3f3","#fff"],
+				["#f00","#f90","#ff0","#0f0","#0ff","#00f","#90f","#f0f"],
+				["#f4cccc","#fce5cd","#fff2cc","#d9ead3","#d0e0e3","#cfe2f3","#d9d2e9","#ead1dc"],
+				["#ea9999","#f9cb9c","#ffe599","#b6d7a8","#a2c4c9","#9fc5e8","#b4a7d6","#d5a6bd"],
+				["#e06666","#f6b26b","#ffd966","#93c47d","#76a5af","#6fa8dc","#8e7cc3","#c27ba0"],
+				["#c00","#e69138","#f1c232","#6aa84f","#45818e","#3d85c6","#674ea7","#a64d79"],
+				["#900","#b45f06","#bf9000","#38761d","#134f5c","#0b5394","#351c75","#741b47"],
+				["#600","#783f04","#7f6000","#274e13","#0c343d","#073763","#20124d","#4c1130"]
+			]
+		});
+		$("#colorpicker_text_color").spectrum({
+			showPaletteOnly: true,
+			togglePaletteOnly: true,
+			togglePaletteMoreText: 'more',
+			togglePaletteLessText: 'less',
+			color: '#a2c4c9',
+			palette: [
+				["#000","#444","#666","#999","#ccc","#eee","#f3f3f3","#fff"],
+				["#f00","#f90","#ff0","#0f0","#0ff","#00f","#90f","#f0f"],
+				["#f4cccc","#fce5cd","#fff2cc","#d9ead3","#d0e0e3","#cfe2f3","#d9d2e9","#ead1dc"],
+				["#ea9999","#f9cb9c","#ffe599","#b6d7a8","#a2c4c9","#9fc5e8","#b4a7d6","#d5a6bd"],
+				["#e06666","#f6b26b","#ffd966","#93c47d","#76a5af","#6fa8dc","#8e7cc3","#c27ba0"],
+				["#c00","#e69138","#f1c232","#6aa84f","#45818e","#3d85c6","#674ea7","#a64d79"],
+				["#900","#b45f06","#bf9000","#38761d","#134f5c","#0b5394","#351c75","#741b47"],
+				["#600","#783f04","#7f6000","#274e13","#0c343d","#073763","#20124d","#4c1130"]
+			]
+		});
+		
+		$("#add").click(function(){
+			let start=$("#feaha").val();
+			let end=$("#end").val();
+			let title=$("#title").val();
+			let back_color=$("#colorpicker_back_color").val();
+			let text_color=$("#colorpicker_text_color").val();
+			
+		});
+		
+		
+
+	
+	
+		
+	});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
